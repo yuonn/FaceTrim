@@ -25,3 +25,5 @@
 カスケード型識別器は下記URLから使用させていただきました．
 
 https://github.com/nagadomi/lbpcascade_animeface
+
+Copyright (C) 2011 by nagadomi@nurs.or.jp
