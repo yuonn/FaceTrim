@@ -34,7 +34,7 @@ def TrimFaces(images_path, faces_path, extension):
     for i in range(count):
         image = cv2.imread(images_path + '/' + str(i) + extension)
         faces = FaceDetect(image)
-        print(faces)
+        
         if not os.path.exists(faces_path):
             os.makedirs(faces_path)
 
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     images_path = './images'
     faces_path = './faces'
     extension = '.png'
-    
+
     RenameFiles(images_path, extension)
     TrimFaces(images_path, faces_path, extension)
 
