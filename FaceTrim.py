@@ -19,24 +19,23 @@ def RenameFiles(path, extension):
     
     for i, file_name in enumerate(image_dir):
         image_path = path + '/' + str(i) + extension
-        if os.path.exists(image_path) == False:
+        if not os.path.exists(image_path):
             os.rename(file_name, os.path.join(path, str(i) + extension))
    
 
 def TrimFaces(images_path, faces_path, extension):
+    if not os.path.exists(faces_path):
+        os.makedirs(faces_path)
     images = os.listdir(images_path)
     count = 0
     for f in images:
         index = re.search(extension, f)
         if index:
-            count = count + 1
+            count += 1
 
     for i in range(count):
         image = cv2.imread(images_path + '/' + str(i) + extension)
         faces = FaceDetect(image)
-        
-        if not os.path.exists(faces_path):
-            os.makedirs(faces_path)
 
         for j, (x,y,w,h) in enumerate(faces):
             face_image = image[y:y+h, x:x+w]
