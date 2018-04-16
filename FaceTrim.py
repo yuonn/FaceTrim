@@ -6,7 +6,7 @@ import re
 import cv2
 import numpy as np
 
-def facedetect(img):
+def FaceDetect(img):
     face_cascade = cv2.CascadeClassifier('lbpcascade_animeface.xml')
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray)
@@ -14,35 +14,44 @@ def facedetect(img):
     return faces
 
 
-if __name__ == '__main__':
-    # ファイル名を連番にする
-    path = "./images"
-    files = glob.glob(path + '/*')
+def RenameFiles(path, extension):
+    image_dir = glob.glob(path + '/*')
     
-    for i, f in enumerate(files):
-        image_path = path + str(i) + '.png'
+    for i, file_name in enumerate(image_dir):
+        image_path = path + str(i) + extension
         if os.path.exists(image_path):
             continue
         else:
-            os.rename(f, os.path.join(path, str(i) + '.png'))
-            
-    files = os.listdir('./images')
+            os.rename(file_name, os.path.join(path, str(i) + extension))
+
+
+def TrimFaces(images_path, faces_path, extension):
+    images = os.listdir(images_path)
     count = 0
-    for file in files:
-        index = re.search('.png', file)
+    for image in images:
+        index = re.search(extension, image)
         if index:
             count = count + 1
 
     for i in range(count):
-        img = cv2.imread('./images/' + str(i) + '.png')
-        faces = facedetect(img)
+        image = cv2.imread(images_path + '/' + str(i) + extension)
+        faces = facedetect(images)
 
-        output_dir = 'faces/'
-        if not os.path.exists(output_dir):
+        if not os.path.exists(faces_path):
             os.makedirs(output_dir)
 
         for j, (x,y,w,h) in enumerate(faces):
-            face_image = img[y:y+h, x:x+w]
-            output_path = os.path.join(output_dir, str(i) + '_' + str(j) + '.png')
-            cv2.imwrite(output_path,face_image)
+            face_image = image[y:y+h, x:x+w]
+            faces_path = os.path.join(faces_path, '/' + str(i) + '_' + str(j) + extension)
+            cv2.imwrite(faces_path, face_image)
 
+
+if __name__ == '__main__':
+    images_path = './images'
+    faces_path = './faces'
+    extension = '.png'
+    
+    RenameFiles(images_path, extension)
+    TrimFaces(images_path, faces_path, extension)
+
+    
