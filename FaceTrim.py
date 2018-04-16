@@ -6,9 +6,9 @@ import re
 import cv2
 import numpy as np
 
-def FaceDetect(img):
+def FaceDetect(image):
     face_cascade = cv2.CascadeClassifier('lbpcascade_animeface.xml')
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray)
     
     return faces
@@ -18,12 +18,10 @@ def RenameFiles(path, extension):
     image_dir = glob.glob(path + '/*')
     
     for i, file_name in enumerate(image_dir):
-        image_path = path + str(i) + extension
-        if os.path.exists(image_path):
-            continue
-        else:
+        image_path = path + '/' + str(i) + extension
+        if os.path.exists(image_path) == False:
             os.rename(file_name, os.path.join(path, str(i) + extension))
-
+   
 
 def TrimFaces(images_path, faces_path, extension):
     images = os.listdir(images_path)
