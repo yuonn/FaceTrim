@@ -4,7 +4,6 @@ import os
 import glob
 import re
 import cv2
-import numpy as np
 
 def FaceDetect(image):
     face_cascade = cv2.CascadeClassifier('lbpcascade_animeface.xml')
